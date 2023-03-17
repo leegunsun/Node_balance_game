@@ -2,7 +2,9 @@ const Boom = require("boom");
 
 const Boomtest = (req, res, next) => {
   try {
-    ("아래 throw가 실행되면 붐을 실행합니다.");
+    const val = 1;
+    if (val == 2) {
+    }
     throw Boom.badRequest("badRequest는 status404입니다");
   } catch (error) {
     if (Boom.isBoom(error)) {
@@ -10,6 +12,8 @@ const Boomtest = (req, res, next) => {
         .status(error.output.statusCode) // badRequest는 404이므로 404 statusCode를 반환합니다.
         .json({ errorMessage: error.output.payload.message }); // 에러 메시지를 설정하면 이쪽으로 빠집니다.
     } else {
+      console.log(`message : ${error.output.payload.message}`);
+      console.log(`statusCode : ${error.output.statusCode}`);
       res
         .status(500) // 설정하지 않은 에러는 500를 반환합니다.
         .json({ errorMessage: "설정하지 않은 에러는 여기로 빠집니다." });
