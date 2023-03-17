@@ -2,25 +2,55 @@ const { Comments, Games } = require("../models");
 
 class GamesRepository {
   // 식별자 Games가 Model과 같은지 확인해 봐야함
+
   findAllGames = async () => {
-    const findAllGames = await Games.findAll();
+    const findAllGames = await Games.findAll({
+      attributes: [
+        "gameId",
+        "title",
+        "optionA",
+        "optionB",
+        "UserId",
+        "createdAt",
+      ],
+    });
+
+    return findAllGames;
+  };
+
+  findOneGame = async (gameId) => {
+    const findOneGames = await Games.findOne({ where: { gameId: gameId } });
     const rename = await Promise.all(
-      findAllGames.map(async (ele) => {
+      findOneGames.map(async (ele) => {
         // 식별자 Comment가 Model과 같은지 확인해 봐야함
-        const optionA = await Comments.findAll({ where: { option: "A" } });
-        const optionB = await Comments.findAll({ where: { option: "B" } });
+        const commentsA = await Comments.findAll({ where: { option: "A" } });
+        const commentsB = await Comments.findAll({ where: { option: "B" } });
         return {
-          postId: ele.postId,
+          gameId: ele.gameId,
           title: ele.title,
-          optionA: optionA.length ? optionA : [],
-          optionB: optionB.length ? optionB : [],
-          userId: ele.userId,
+          optionA: ele.optionA,
+          optionB: ele.optionB,
+          commentsA: commentsA.length ? commentsA : [],
+          commentsB: commentsB.length ? commentsB : [],
+          UserId: ele.UserId,
           createdAt: ele.createdAt,
+          updatedAt: ele.updatedAt,
         };
       })
     );
 
     return rename;
+  };
+
+  createGame = async (title, optionA, optionB, UserId) => {
+    const createGame = await Games.create({ title, optionA, optionB, UserId });
+    return createGame;
+  };
+
+  deleteOneGames = async (gameId) => {
+    const findOne = await Games.findOne({ where: { gameId: gameId } });
+    await findOne.destroy();
+    return;
   };
 }
 
