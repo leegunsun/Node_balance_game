@@ -2,7 +2,9 @@ const Boom = require("boom");
 
 const Boomtest = (req, res, next) => {
   try {
-    ("아래 throw가 실행되면 붐을 실행합니다.");
+    const val = 1;
+    if (val == 2) {
+    }
     throw Boom.badRequest("badRequest는 status404입니다");
   } catch (error) {
     if (Boom.isBoom(error)) {
