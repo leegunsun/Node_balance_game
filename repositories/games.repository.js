@@ -19,6 +19,11 @@ class GamesRepository {
   };
 
   findOneGame = async (gameId) => {
+    const findOne = await Games.findOne({ where: { gameId: gameId } });
+    return findOne;
+  };
+
+  findOneRenameGame = async (gameId) => {
     const findOneGames = await Games.findOne({ where: { gameId: gameId } });
     const rename = await Promise.all(
       findOneGames.map(async (ele) => {
@@ -47,7 +52,7 @@ class GamesRepository {
     return createGame;
   };
 
-  deleteOneGames = async (gameId) => {
+  deleteOneGame = async (gameId) => {
     const findOne = await Games.findOne({ where: { gameId: gameId } });
     await findOne.destroy();
     return;
