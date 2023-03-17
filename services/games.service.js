@@ -1,4 +1,5 @@
 const GamesRepository = require("../repositories/games.repository");
+const Boom = require("boom");
 
 class GamesService {
   constructor() {
@@ -11,29 +12,23 @@ class GamesService {
 
       return findAllGames;
     } catch (error) {
-      error = new Error("게임목록 조회에 실패하였습니다.");
-      error.status = 400;
-      throw error;
+      throw Boom.preconditionFailed("게임목록 조회에 실패하였습니다.");
     }
   };
 
-  findOneGames = async (gameId) => {
+  findOneGame = async (gameId) => {
     try {
-      const findOneGame = await this.gamesRepository.findOneGame(gameId);
+      const findOneGame = await this.gamesRepository.findOneRenameGame(gameId);
 
       return findOneGame;
     } catch (error) {
-      error = new Error("게임목록 조회에 실패하였습니다.");
-      error.status = 400;
-      throw error;
+      throw Boom.preconditionFailed("게임목록 조회에 실패하였습니다.");
     }
   };
 
   postGame = async (title, optionA, optionB, UserId) => {
     if (!title && !optionA && !optionB) {
-      error = new Error("데이터 형식이 올바르지 않습니다.");
-      error.status = 400;
-      throw error;
+      throw Boom.preconditionFailed("데이터 형식이 올바르지 않습니다.");
     }
 
     if (!title) {
@@ -50,6 +45,29 @@ class GamesService {
     );
 
     return createGame;
+  };
+
+  deleteOneGame = async (gameId, UserId) => {
+    const game = this.gamesRepository.findOneGame(gameId);
+
+    if (!game) {
+      throw Boom.preconditionFailed("게시글이 존재하지 않습니다.");
+    }
+
+    if (game.UserId == UserId) {
+      try {
+        const deleteOne = await this.gamesRepository.deleteOneGame(gameId);
+        const message = "게임을 삭제하였습니다";
+        deleteOne;
+        return message;
+      } catch (error) {
+        throw Boom.preconditionFailed(
+          "게시글이 정상적으로 삭제되지 않았습니다."
+        );
+      }
+    } else {
+      throw Boom.preconditionFailed("게시글의 삭제 권한이 존재하지 않습니다.");
+    }
   };
 }
 
