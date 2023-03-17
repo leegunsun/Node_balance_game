@@ -6,8 +6,8 @@ class CommentsController {
     createComment = async (req,res, next) => {
         try {
             const { gameId } = req.params;
-            const { userId } = res.locals.user;
-            const { content, part } = req.body;
+            // const { userId } = res.locals.user;
+            const { content, part, userId } = req.body; // 나중에 유저아이디 삭제하기
             if (!gameId || !userId || !comment || !part) {
                 throw new InvalidParamsError();
               }
@@ -20,8 +20,8 @@ class CommentsController {
 
     updateComment = async (req, res, next) => {
         try {
-            const { content } = req.body;
-            const { userId } = res.locals.user;
+            const { content, userId } = req.body;  // 나중에 유저아이디 삭제하기
+            // const { userId } = res.locals.user;
             const { gameId, commentId } = req.params;
             if (!gameId || !userId || !content || !commentId) {
                 throw new InvalidParamsError();
@@ -35,7 +35,8 @@ class CommentsController {
 
     deleteOneComment = async (req, res, next) => {
         try {
-            const { userId } = res.locals.user;
+            const { userId } = req.body // 나중에 유저아이디 삭제하기
+            // const { userId } = res.locals.user;
             const { gameId, commentId } = req.params;
             if (!gameId || !userId || !commentId) {
                 throw new InvalidParamsError();
