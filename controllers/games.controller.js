@@ -17,7 +17,7 @@ class GamesController {
   };
 
   postGames = async (req, res, next) => {
-    const { title, optionA, optionB } = body.req;
+    const { title } = body.req;
     const { userId } = res.locals.user;
 
     try {
