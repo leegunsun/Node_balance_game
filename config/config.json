@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "root",
-    "password": null,
-    "database": "database_development",
-    "host": "127.0.0.1",
+    "password": "4321aaaa",
+    "database": "express_sequelize_init",
+    "host": "",
     "dialect": "mysql"
   },
   "test": {
