@@ -5,13 +5,13 @@ class CommentsController {
 
     createComment = async (req,res, next) => {
         try {
-            const { postId } = req.params;
+            const { gameId } = req.params;
             const { userId } = res.locals.user;
-            const { comment } = req.body;
-            if (!postId || !userId || !comment) {
+            const { content, part } = req.body;
+            if (!gameId || !userId || !comment || !part) {
                 throw new InvalidParamsError();
               }
-            await this.commentsService.createComment(postId, userId, comment);
+            await this.commentsService.createComment(gameId, userId, content, part);
             res.status(201).json({ message: "댓글을 작성하였습니다." });
         } catch (error) {
             next(error);
@@ -20,13 +20,13 @@ class CommentsController {
 
     updateComment = async (req, res, next) => {
         try {
-            const { comment } = req.body;
+            const { content } = req.body;
             const { userId } = res.locals.user;
-            const { postId, commentId } = req.params;
-            if (!postId || !userId || !comment || !commentId) {
+            const { gameId, commentId } = req.params;
+            if (!gameId || !userId || !content || !commentId) {
                 throw new InvalidParamsError();
               }
-            await this.commentsService.updateComment(commentId, userId, postId, comment);
+            await this.commentsService.updateComment(commentId, userId, gameId, content);
             res.status(200).json({message: "댓글을 수정하였습니다."});
         } catch (error) {
             next(error);
@@ -36,11 +36,11 @@ class CommentsController {
     deleteOneComment = async (req, res, next) => {
         try {
             const { userId } = res.locals.user;
-            const { postId, commentId } = req.params;
-            if (!postId || !userId || !commentId) {
+            const { gameId, commentId } = req.params;
+            if (!gameId || !userId || !commentId) {
                 throw new InvalidParamsError();
               }
-            await this.commentsService.deleteOneComment(commentId, userId, postId);
+            await this.commentsService.deleteOneComment(commentId, userId, gameId);
             res.status(200).json({message: "댓글을 삭제하였습니다."});
         } catch (error) {
             next(error);
