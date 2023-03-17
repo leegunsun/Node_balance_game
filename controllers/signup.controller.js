@@ -1,3 +1,5 @@
+const SignupService = require("../services/signup.service");
+
 app.post('/api/signup', (req, res) => {
     const { nickname, password, confirmPassword } = req.body;
   
@@ -35,3 +37,4 @@ app.post('/api/signup', (req, res) => {
     return false; // 임시로 false 반환
   }
   
+  module.exports = SignupController;

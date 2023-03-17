@@ -16,8 +16,8 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       this.belongsTo(models.Games, {
-        targetKey: "gamesId",
-        foreignKey: "GamesId",
+        targetKey: "gameId",
+        foreignKey: "GameId",
         onDelete: "CASCADE",
       });
     }
