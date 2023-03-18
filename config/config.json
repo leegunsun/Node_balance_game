@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "root",
-    "password": "sparta4321",
-    "database": "bgm",
-    "host": "express-database.crkxc7s2rvvs.ap-northeast-2.rds.amazonaws.com",
+    "password": "4321aaaa",
+    "database": "express_sequelize_init",
+    "host": "express-database.cjncax7oufin.ap-northeast-2.rds.amazonaws.com",
     "dialect": "mysql"
   },
   "test": {
