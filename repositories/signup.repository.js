@@ -1,5 +1,7 @@
-// 모듈 불러오기
-const { pool } = require('../db');
+// // 모듈 불러오기
+// const { pool } = require(MYSQL);
+
+
 
 // 닉네임 중복 검사 함수
 async function isExistingNickname(nickname) {

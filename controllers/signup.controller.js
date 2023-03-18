@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const { isExistingNickname, signup } = require('./signup.repository');
+const { isExistingNickname, signup } = require('../repositories/signup.repository');
 const Boom = require('boom');
 
 const signupController = async (req, res) => {
