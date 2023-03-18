@@ -32,9 +32,9 @@ class GamesService {
     }
 
     if (!title) {
-      throw Boom.preconditionFailed("게시글 제목의 형식이 일치하지 않습니다.");
+      throw Boom.preconditionFailed("게임 제목의 형식이 일치하지 않습니다.");
     } else if (!optionA || !optionB) {
-      throw Boom.preconditionFailed("게시글 내용의 형식이 일치하지 않습니다.");
+      throw Boom.preconditionFailed("게임 내용의 형식이 일치하지 않습니다.");
     }
 
     const createGame = await this.gamesRepository.createGame(
@@ -51,7 +51,7 @@ class GamesService {
     const game = await this.gamesRepository.findOneGame(gameId);
 
     if (!game) {
-      throw Boom.preconditionFailed("게시글이 존재하지 않습니다.");
+      throw Boom.preconditionFailed("게임이 존재하지 않습니다.");
     }
 
     if (game.UserId == userId) {
@@ -61,12 +61,10 @@ class GamesService {
         deleteOne;
         return message;
       } catch (error) {
-        throw Boom.preconditionFailed(
-          "게시글이 정상적으로 삭제되지 않았습니다."
-        );
+        throw Boom.preconditionFailed("게임이 정상적으로 삭제되지 않았습니다.");
       }
     } else {
-      throw Boom.preconditionFailed("게시글의 삭제 권한이 존재하지 않습니다.");
+      throw Boom.preconditionFailed("게임의 삭제 권한이 존재하지 않습니다.");
     }
   };
 }
