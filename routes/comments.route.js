@@ -9,8 +9,8 @@ const authMiddleware = require("../middlewares/authMiddleware");
 const CommentsController = require("../controllers/comments.controller");
 const commentsController = new CommentsController();
 
-// router.use(errorLogger); // Error Logger
-// router.use(errorHandler); // Error Handler
+router.use(errorLogger); // Error Logger
+router.use(errorHandler); // Error Handler
 
 // 게임에 댓글 등록
 router.post("/", authMiddleware, commentsController.createComment);
