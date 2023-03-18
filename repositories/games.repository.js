@@ -20,16 +20,19 @@ class GamesRepository {
 
   findOneGame = async (gameId) => {
     const findOne = await Games.findOne({ where: { gameId: gameId } });
+
     return findOne;
   };
 
   findOneRenameGame = async (gameId) => {
-    const findOneGames = await Games.findOne({ where: { gameId: gameId } });
+    const findOneGames = await Games.findAll({ where: { gameId: gameId } });
+    const commentsA = await Comments.findAll({ where: { option: "A" } });
+    const commentsB = await Comments.findAll({ where: { option: "B" } });
+
+    // console.log(findOneGames);
     const rename = await Promise.all(
       findOneGames.map(async (ele) => {
-        // 식별자 Comment가 Model과 같은지 확인해 봐야함
-        const commentsA = await Comments.findAll({ where: { option: "A" } });
-        const commentsB = await Comments.findAll({ where: { option: "B" } });
+        console.log(ele);
         return {
           gameId: ele.gameId,
           title: ele.title,

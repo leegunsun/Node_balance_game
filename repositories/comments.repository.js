@@ -1,34 +1,32 @@
-const { Games, Comments } = require('../models');
+const { Games, Comments } = require("../models");
 
 class CommentsRepository {
-    findGameById = async (gameId) => {
-        const game = await Games.findByPk(gameId);
+  findGameById = async (gameId) => {
+    const game = await Games.findByPk(gameId);
 
-        return game;
-    }
+    return game;
+  };
 
-    createComment = async (gameId, userId, content, part) => {
-        await Comments.create({GameId:gameId, UserId:userId, content, part})
-    }
+  createComment = async (gameId, userId, content, option) => {
+    await Comments.create({ GameId: gameId, UserId: userId, content, option });
+  };
 
-    findCommentById = async (commentId) => {
-        const comment = await Comments.findByPk(commentId);
+  findCommentById = async (commentId) => {
+    const comment = await Comments.findByPk(commentId);
 
-        return comment;
-    }
+    return comment;
+  };
 
-    updateComment = async (commentId, userId, content) => {
-        await Comments.update(
-            { content },
-            {where: { commentId, UserId: userId }},
-        );
-    }
+  updateComment = async (commentId, userId, content) => {
+    await Comments.update(
+      { content },
+      { where: { commentId, UserId: userId } }
+    );
+  };
 
-    deleteComment = async (commentId, userId) => {
-        await Comments.destroy(
-            {where: { commentId, UserId: userId }},
-        );
-    }
+  deleteComment = async (commentId, userId) => {
+    await Comments.destroy({ where: { commentId, UserId: userId } });
+  };
 }
 
 module.exports = CommentsRepository;
