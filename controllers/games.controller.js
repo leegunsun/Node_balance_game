@@ -1,23 +1,35 @@
 const GamesService = require("../services/games.service");
 const Boom = require("boom");
-
+const CustomLogger = require("../config/custom_winston");
 class GamesController {
   constructor() {
     this.gamesService = new GamesService();
+    this.customLogger = new CustomLogger();
   }
 
   getGames = async (req, res, next) => {
+    const label = "games.controller.js";
     try {
       const findAllGames = await this.gamesService.findAllGames();
-      return res.status(200).json({ games: findAllGames });
+
+      if (findAllGames.length === 0) {
+        res.status(200).json({ message: "아직 게임이 등록되지 않았어요." });
+      }
+      res.status(200).json({ games: findAllGames });
+      return;
     } catch (error) {
       if (Boom.isBoom(error)) {
-        res
+        this.customLogger.log(
+          "error",
+          label,
+          error.output.payload.message,
+          error.output.statusCode
+        );
+        return res
           .status(error.output.statusCode)
           .json({ errorMessage: error.output.payload.message }); // 에러 메시지를 설정하면 이쪽으로 빠집니다.
       } else {
-        console.log(`message : ${error.output.payload.message}`);
-        console.log(`statusCode : ${error.output.statusCode}`);
+        this.customLogger.log("error", label, error.message, error.status);
         res.status(400).json({ errorMessage: "게임이 삭제에 실패하였습니다." });
       }
     }
@@ -36,9 +48,9 @@ class GamesController {
           .status(error.output.statusCode)
           .json({ errorMessage: error.output.payload.message }); // 에러 메시지를 설정하면 이쪽으로 빠집니다.
       } else {
-        console.log(`message : ${error.output.payload.message}`);
+        console.log(`message : ${error.message}`);
         console.log(`statusCode : ${error.output.statusCode}`);
-        res.status(400).json({ errorMessage: "게시글 조회에 실패하였습니다." });
+        res.status(400).json({ errorMessage: "게임 조회에 실패하였습니다." });
       }
     }
   };
@@ -64,7 +76,7 @@ class GamesController {
       } else {
         console.log(`message : ${error.output.payload.message}`);
         console.log(`statusCode : ${error.output.statusCode}`);
-        res.status(400).json({ errorMessage: "게시글 작성에 실패하였습니다." });
+        res.status(400).json({ errorMessage: "게임 등록에 실패하였습니다." });
       }
     }
   };

@@ -1,4 +1,5 @@
 const { Comments, Games } = require("../models");
+const { Op } = require("sequelize");
 
 class GamesRepository {
   // 식별자 Games가 Model과 같은지 확인해 봐야함
@@ -26,8 +27,12 @@ class GamesRepository {
 
   findOneRenameGame = async (gameId) => {
     const findOneGames = await Games.findAll({ where: { gameId: gameId } });
-    const commentsA = await Comments.findAll({ where: { option: "A" } });
-    const commentsB = await Comments.findAll({ where: { option: "B" } });
+    const commentsA = await Comments.findAll({
+      where: { [Op.and]: [{ gameId: gameId }, { option: "A" }] },
+    });
+    const commentsB = await Comments.findAll({
+      where: { [Op.and]: [{ gameId: gameId }, { option: "B" }] },
+    });
 
     // console.log(findOneGames);
     const rename = await Promise.all(

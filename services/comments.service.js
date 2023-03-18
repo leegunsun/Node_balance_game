@@ -33,7 +33,7 @@ class CommentsService {
     const findComment = await this.commentsRepository.findCommentById(
       commentId
     );
-    if (!findGame) throw new Error("게시글이 존재하지 않습니다.");
+    if (!findGame) throw new Error("게임이 존재하지 않습니다.");
     if (!findComment) throw new Error("댓글이 존재하지 않습니다.");
     if (findComment.UserId !== userId)
       throw new Error("댓글의 수정 권한이 존재하지 않습니다.");
