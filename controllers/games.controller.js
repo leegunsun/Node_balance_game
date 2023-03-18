@@ -24,7 +24,7 @@ class GamesController {
   };
 
   getOneGame = async (req, res, next) => {
-    const { gameId } = req.body;
+    const { gameId } = req.params;
 
     try {
       const findOneGame = await this.gamesService.findOneGame(gameId);
@@ -44,7 +44,7 @@ class GamesController {
   };
 
   postGame = async (req, res, next) => {
-    const { title, optionA, optionB } = body.req;
+    const { title, optionA, optionB } = req.body;
     const { userId } = res.locals.user;
 
     try {
