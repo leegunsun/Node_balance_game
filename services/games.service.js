@@ -47,14 +47,14 @@ class GamesService {
     return createGame;
   };
 
-  deleteOneGame = async (gameId, UserId) => {
-    const game = this.gamesRepository.findOneGame(gameId);
+  deleteOneGame = async (gameId, userId) => {
+    const game = await this.gamesRepository.findOneGame(gameId);
 
     if (!game) {
       throw Boom.preconditionFailed("게시글이 존재하지 않습니다.");
     }
 
-    if (game.UserId == UserId) {
+    if (game.UserId == userId) {
       try {
         const deleteOne = await this.gamesRepository.deleteOneGame(gameId);
         const message = "게임을 삭제하였습니다";

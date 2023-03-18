@@ -70,7 +70,7 @@ class GamesController {
   };
 
   deleteOneGame = async (req, res, next) => {
-    const { gameId } = req.body;
+    const { gameId } = req.params;
     const { userId } = res.locals.user;
 
     try {
