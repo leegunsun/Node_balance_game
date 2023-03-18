@@ -2,7 +2,9 @@ const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
 
+
 const { sequelize } = require("./models/index.js");
+const { errorHandler, errorLogger } = require('./middlewares/error-handler.middleware');
 
 const indexRouter = require("./routes/index");
 
@@ -21,6 +23,10 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api", indexRouter);
+
+app.use(errorLogger); // Error Logger
+app.use(errorHandler); // Error Handler
+
 
 app.listen(port, () => {
   console.log(port, "포트로 서버가 열렸어요!");
