@@ -6,6 +6,10 @@ const gamesController = new GamesController();
 
 //authMiddleware 장착해야함
 router.get("/", gamesController.getGames);
-router.post("/", gamesController.postGames);
+router.get("/:gameId", gamesController.getOneGame);
+
+router.post("/", gamesController.postGame);
+
+router.delete("/:gameId", gamesController.deleteOneGame);
 
 module.exports = router;
