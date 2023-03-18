@@ -9,7 +9,7 @@ class GamesService {
   findAllGames = async () => {
     try {
       const findAllGames = await this.gamesRepository.findAllGames();
-
+      console.log(findAllGames);
       return findAllGames;
     } catch (error) {
       throw Boom.preconditionFailed("게임목록 조회에 실패하였습니다.");
