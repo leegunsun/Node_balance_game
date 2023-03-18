@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const cookieParser = require("cookie-parser");
 
@@ -11,6 +12,14 @@ const {
 const indexRouter = require("./routes/index");
 
 const port = 3000;
+
+app.use(
+  cors({
+    origin: "http://3.38.102.57:3000",
+    credentials: true,
+    optionsSuccessStatus: 200,
+  })
+);
 
 sequelize
   .authenticate()
@@ -34,3 +43,5 @@ app.listen(port, () => {
 });
 
 //test
+// "nickname":"qwer",
+// "password":"1234512345aA!",
