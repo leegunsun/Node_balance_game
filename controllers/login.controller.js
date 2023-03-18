@@ -1,13 +1,15 @@
 const LoginService = require("../services/login.service");
 const bcrypt = require("bcrypt");
 const Boom = require("boom");
-
+const CustomLogger = require("../config/custom_winston");
 class LoginController {
   constructor() {
     this.loginService = new LoginService();
+    this.customLogger = new CustomLogger();
   }
 
   auth = async (req, res) => {
+    const label = "login.controller.js";
     try {
       const { nickname, password } = req.body;
 
@@ -21,10 +23,17 @@ class LoginController {
       console.error(error);
       res.status(400).json({ error: error });
       if (Boom.isBoom(error)) {
-        res
+        this.customLogger.log(
+          "error",
+          label,
+          error.output.payload.message,
+          error.output.statusCode
+        );
+        return res
           .status(error.output.statusCode)
           .json({ errorMessage: error.output.payload.message });
       } else {
+        this.customLogger.log("error", label, error.message, error.status);
         res
           .status(500)
           .json({ message: "요청한 데이터 형식이 올바르지 않습니다." });

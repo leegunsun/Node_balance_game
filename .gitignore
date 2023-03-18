@@ -5,7 +5,8 @@
 #testfile
 boomtest.js
 #Config
-config
+config.json
+
 # Logs
 logs
 *.log
