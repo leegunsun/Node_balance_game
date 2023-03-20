@@ -18,7 +18,7 @@ class LoginController {
       const reToken = await this.loginService.refreshToken({ nickname });
 
       res.cookie("authorization", `Bearer ${token}`, {
-        sameSite: "none",
+        sameSite: "lax",
       });
       res.cookie("refreshToken", `Bearer ${reToken}`);
       return res
