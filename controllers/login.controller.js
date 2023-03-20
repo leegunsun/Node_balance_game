@@ -17,7 +17,7 @@ class LoginController {
 
       const reToken = await this.loginService.refreshToken({ nickname });
 
-      res.cookie("authorization", `Bearer ${token}`);
+      res.cookie("authorization", `Bearer ${token}`, { httpOnly: true });
       res.cookie("refreshToken", `Bearer ${reToken}`);
       return res
         .status(201)
