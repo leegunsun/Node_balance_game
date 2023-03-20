@@ -16,7 +16,6 @@ class LoginController {
       const token = await this.loginService.auth({ nickname, password });
 
       const reToken = await this.loginService.refreshToken({ nickname });
-      console.log("어디야", nickname);
 
       res.cookie("authorization", `Bearer ${token}`);
       res.cookie("refreshToken", `Bearer ${reToken}`);
