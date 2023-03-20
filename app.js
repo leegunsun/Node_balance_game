@@ -1,5 +1,4 @@
 const express = require("express");
-const cors = require("cors");
 const app = express();
 const cookieParser = require("cookie-parser");
 
@@ -24,14 +23,6 @@ sequelize
 
 app.use(cookieParser());
 app.use(express.json());
-
-app.use(
-  cors({
-    origin: "*", // 저희 빽 배포 주소 -> 프론트에 맞춰야한다
-    credentials: true,
-    optionsSuccessStatus: 200,
-  })
-);
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
