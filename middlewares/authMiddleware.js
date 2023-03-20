@@ -5,6 +5,24 @@ const jwt = require("jsonwebtoken");
 const Boom = require("boom");
 // require('dotenv').config();
 
+function validateAccessToken(authToken) {
+  try {
+    jwt.verify(authToken, "Balance_Secret_Key");
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+function validateRefreshToken(reToken) {
+  try {
+    jwt.verify(reToken, "Balance_Secret_Key2");
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
 module.exports = async (req, res, next) => {
   this.customLogger = new CustomLogger();
   const label = "authMiddleware.js";
@@ -72,24 +90,6 @@ module.exports = async (req, res, next) => {
       res
         .status(400)
         .json({ errorMessage: "전달된 쿠키에서 오류가 발생하였습니다." });
-    }
-
-    function validateAccessToken(authToken) {
-      try {
-        jwt.verify(authToken, "Balance_Secret_Key");
-        return true;
-      } catch (error) {
-        return false;
-      }
-    }
-
-    function validateRefreshToken(reToken) {
-      try {
-        jwt.verify(reToken, "Balance_Secret_Key2");
-        return true;
-      } catch (error) {
-        return false;
-      }
     }
   }
 };

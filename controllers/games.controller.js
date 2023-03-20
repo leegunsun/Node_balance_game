@@ -13,7 +13,6 @@ class GamesController {
     const label = "games.controller.js";
     try {
       const findAllGames = await this.gamesService.findAllGames();
-      console.log(findAllGames);
 
       if (findAllGames.length === 0) {
         res.status(200).json({ message: "아직 게임이 등록되지 않았어요." });
@@ -72,20 +71,20 @@ class GamesController {
     const optionASchema = Joi.string().max(25).min(1);
     const optionBSchema = Joi.string().max(25).min(1);
 
-    const titleValidate = titleSchema.validate(title);
-    const optionAValidate = optionASchema.validate(optionA);
-    const optionBValidate = optionBSchema.validate(optionB);
+    const { value: validatedTitle } = titleSchema.validate(title);
+    const { value: optionAValidate } = optionASchema.validate(optionA);
+    const { value: optionBValidate } = optionBSchema.validate(optionB);
     const { userId } = res.locals.user;
 
     try {
       const postGame = this.gamesService.postGame(
-        titleValidate,
+        validatedTitle,
         optionAValidate,
         optionBValidate,
         userId
       );
 
-      if (titleValidate == false) {
+      if (validatedTitle == false) {
         throw Boom.badRequest("제목 글자 수를 확인해 주세요");
       }
 
