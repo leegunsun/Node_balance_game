@@ -33,6 +33,11 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  next();
+});
+
 app.use("/api", indexRouter);
 
 app.use(errorLogger); // Error Logger
