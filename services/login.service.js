@@ -25,6 +25,17 @@ class LoginService {
       throw Boom.unauthorized("비밀번호가 일치하지 않습니다.");
     }
   };
+
+  refreshToken = async (nickname) => {
+    const reToken = jwt.sign({}, "Balance_Secret_Key2", { expiresIn: "7d" });
+
+    const addRefreshToken = await this.loginRepository.refreshToken(
+      nickname,
+      reToken
+    );
+    addRefreshToken;
+    return reToken;
+  };
 }
 
 module.exports = LoginService;
