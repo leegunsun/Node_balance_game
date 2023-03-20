@@ -12,6 +12,7 @@ class LoginService {
   auth = async ({ nickname, password }) => {
     const user = await this.loginRepository.getHashedPassword({ nickname });
     const hashedPassword = await user.password;
+    console.log(hashedPassword);
 
     const passwordVal = await bcrypt.compare(password, hashedPassword);
 
