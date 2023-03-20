@@ -65,10 +65,11 @@ module.exports = async (req, res, next) => {
       res.cookie("authorization", `Bearer ${newAccessToken}`);
     }
 
-    const { userId } = jwt.verify(authToken, "Balance_Secret_Key", {
-      expiresIn: "10m",
-    });
+    const { userId } = jwt.verify(authToken, "Balance_Secret_Key");
     const user = await loginRepository.findByUserId({ userId });
+
+    console.log("userId :", userId);
+    console.log("user :", user);
 
     if (!user) {
       res.status(401).json({ errorMessage: "사용자가 존재하지 않습니다." });
