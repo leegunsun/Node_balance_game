@@ -27,7 +27,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: true,
+    origin: "211.197.113.166",
     credentials: true,
     optionsSuccessStatus: 200,
     exposedHeaders: ["authorization"],
