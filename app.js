@@ -15,7 +15,7 @@ const port = 3000;
 
 app.use(
   cors({
-    origin: "http://3.38.102.57",
+    origin: "http://localhost:3000", // 저희 빽 배포 주소 -> 프론트에 맞춰야한다
     credentials: true,
     optionsSuccessStatus: 200,
   })
