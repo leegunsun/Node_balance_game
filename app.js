@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 const { sequelize } = require("./models/index.js");
 const {
@@ -24,11 +25,14 @@ sequelize
 app.use(cookieParser());
 app.use(express.json());
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("exposedHeaders", ["authorization"]);
-  next();
-});
+app.use(
+  cors({
+    origin: "*",
+    credentials: true,
+    optionsSuccessStatus: 200,
+    exposedHeaders: ["authorization"],
+  })
+);
 
 app.use("/api", indexRouter);
 
