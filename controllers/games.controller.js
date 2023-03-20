@@ -1,6 +1,8 @@
 const GamesService = require("../services/games.service");
-const Boom = require("boom");
 const CustomLogger = require("../config/custom_winston");
+
+const Joi = require("joi");
+const Boom = require("boom");
 class GamesController {
   constructor() {
     this.gamesService = new GamesService();
@@ -38,6 +40,7 @@ class GamesController {
   };
 
   getOneGame = async (req, res, next) => {
+    const label = "games.controller.js";
     const { gameId } = req.params;
 
     try {
@@ -46,44 +49,76 @@ class GamesController {
       return res.status(200).json({ game: findOneGame });
     } catch (error) {
       if (Boom.isBoom(error)) {
+        this.customLogger.log(
+          "error",
+          label,
+          error.output.payload.message,
+          error.output.statusCode
+        );
         res
           .status(error.output.statusCode)
           .json({ errorMessage: error.output.payload.message }); // 에러 메시지를 설정하면 이쪽으로 빠집니다.
       } else {
-        console.log(`message : ${error.message}`);
-        console.log(`statusCode : ${error.output.statusCode}`);
+        this.customLogger.log("error", label, error.message, error.status);
         res.status(400).json({ errorMessage: "게임 조회에 실패하였습니다." });
       }
     }
   };
 
   postGame = async (req, res, next) => {
+    const label = "games.controller.js";
     const { title, optionA, optionB } = req.body;
+    const titleSchema = Joi.string().max(10).min(1);
+    const optionASchema = Joi.string().max(25).min(1);
+    const optionBSchema = Joi.string().max(25).min(1);
+
+    const titleValidate = titleSchema.validate(title);
+    const optionAValidate = optionASchema.validate(optionA);
+    const optionBValidate = optionBSchema.validate(optionB);
     const { userId } = res.locals.user;
 
     try {
       const postGame = this.gamesService.postGame(
-        title,
-        optionA,
-        optionB,
+        titleValidate,
+        optionAValidate,
+        optionBValidate,
         userId
       );
+
+      if (titleValidate == false) {
+        throw Boom.badRequest("제목 글자 수를 확인해 주세요");
+      }
+
+      if (optionAValidate == false) {
+        throw Boom.badRequest("옵션A 글자 수를 확인해 주세요");
+      }
+
+      if (optionBValidate == false) {
+        throw Boom.badRequest("옵션B 글자 수를 확인해 주세요");
+      }
+
       postGame;
       return res.status(201).json({ message: "게임 등록 완료~!!" });
     } catch (error) {
       if (Boom.isBoom(error)) {
+        this.customLogger.log(
+          "error",
+          label,
+          error.output.payload.message,
+          error.output.statusCode
+        );
         res
           .status(error.output.statusCode)
           .json({ errorMessage: error.output.payload.message }); // 에러 메시지를 설정하면 이쪽으로 빠집니다.
       } else {
-        console.log(`message : ${error.output.payload.message}`);
-        console.log(`statusCode : ${error.output.statusCode}`);
+        this.customLogger.log("error", label, error.message, error.status);
         res.status(400).json({ errorMessage: "게임 등록에 실패하였습니다." });
       }
     }
   };
 
   deleteOneGame = async (req, res, next) => {
+    const label = "games.controller.js";
     const { gameId } = req.params;
     const { userId } = res.locals.user;
 
@@ -93,12 +128,17 @@ class GamesController {
       return res.status(200).json({ message: "게임을 삭제하였습니다." });
     } catch (error) {
       if (Boom.isBoom(error)) {
+        this.customLogger.log(
+          "error",
+          label,
+          error.output.payload.message,
+          error.output.statusCode
+        );
         res
           .status(error.output.statusCode)
           .json({ errorMessage: error.output.payload.message }); // 에러 메시지를 설정하면 이쪽으로 빠집니다.
       } else {
-        console.log(`message : ${error.output.payload.message}`);
-        console.log(`statusCode : ${error.output.statusCode}`);
+        this.customLogger.log("error", label, error.message, error.status);
         res.status(400).json({ errorMessage: "게임이 삭제에 실패하였습니다." });
       }
     }
