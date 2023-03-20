@@ -1,30 +1,45 @@
 const LoginService = require("../services/login.service");
+const bcrypt = require("bcrypt");
 const Boom = require("boom");
-
+const CustomLogger = require("../config/custom_winston");
 class LoginController {
-    constructor() {
-        this.loginService = new LoginService();
+  constructor() {
+    this.loginService = new LoginService();
+    this.customLogger = new CustomLogger();
+  }
+
+  auth = async (req, res) => {
+    const label = "login.controller.js";
+    try {
+      const { nickname, password } = req.body;
+
+      const token = await this.loginService.auth({ nickname, password });
+
+      res.cookie("authorization", `Bearer ${token}`);
+      return res
+        .status(201)
+        .json({ success: true, message: "로그인에 성공하였습니다." });
+    } catch (error) {
+      console.error(error);
+      res.status(400).json({ error: error });
+      if (Boom.isBoom(error)) {
+        this.customLogger.log(
+          "error",
+          label,
+          error.output.payload.message,
+          error.output.statusCode
+        );
+        return res
+          .status(error.output.statusCode)
+          .json({ errorMessage: error.output.payload.message });
+      } else {
+        this.customLogger.log("error", label, error.message, error.status);
+        res
+          .status(500)
+          .json({ message: "요청한 데이터 형식이 올바르지 않습니다." });
+      }
     }
-
-    auth = async (req, res) => {
-        try {
-            const {nickname, password} = req.body;      
-
-            const token = await this.loginService.auth({nickname, password});
-            res.cookie("authorization", `Bearer ${token}`);
-            return res.status(201).json({success:true, message: "로그인에 성공하였습니다." });
-        } catch (error) {
-            if (Boom.isBoom(error)) {
-                res
-                  .status(error.output.statusCode)
-                  .json({ errorMessage: error.output.payload.message });
-              } else {
-                console.log(`message : ${error.output.payload.message}`);
-                console.log(`statusCode : ${error.output.statusCode}`);
-                res.status(400).json({ errorMessage: "로그인에 실패하였습니다." });
-              }
-        }
-    }   
-};
+  };
+}
 
 module.exports = LoginController;
