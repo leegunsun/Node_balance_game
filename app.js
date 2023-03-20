@@ -11,7 +11,7 @@ const {
 
 const indexRouter = require("./routes/index");
 
-const port = 3000;
+const port = 3001;
 
 sequelize
   .authenticate()
