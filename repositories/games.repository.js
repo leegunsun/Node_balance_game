@@ -37,7 +37,6 @@ class GamesRepository {
     // console.log(findOneGames);
     const rename = await Promise.all(
       findOneGames.map(async (ele) => {
-        console.log(ele);
         return {
           gameId: ele.gameId,
           title: ele.title,
