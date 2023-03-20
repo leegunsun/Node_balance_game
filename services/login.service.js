@@ -19,7 +19,9 @@ class LoginService {
       const message = "닉네임을 확인해주세요.";
       return message;
     } else if (passwordVal) {
-      const token = jwt.sign({ userId: user.userId }, "Balance_Secret_Key");
+      const token = jwt.sign({ userId: user.userId }, "Balance_Secret_Key", {
+        expiresIn: "10m",
+      });
       return token;
     } else {
       throw Boom.unauthorized("비밀번호가 일치하지 않습니다.");
