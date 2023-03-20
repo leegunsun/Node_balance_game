@@ -11,10 +11,12 @@ class GamesController {
     const label = "games.controller.js";
     try {
       const findAllGames = await this.gamesService.findAllGames();
+      console.log(findAllGames);
 
       if (findAllGames.length === 0) {
         res.status(200).json({ message: "아직 게임이 등록되지 않았어요." });
       }
+
       res.status(200).json({ games: findAllGames });
       return;
     } catch (error) {
