@@ -17,10 +17,8 @@ class LoginController {
 
       const reToken = await this.loginService.refreshToken({ nickname });
 
-      res.cookie("authorization", `Bearer ${token}`, {
-        sameSite: "lax",
-      });
-      res.cookie("refreshToken", `Bearer ${reToken}`);
+      res.set("authorization", `Bearer ${token}`);
+      res.set("refreshToken", `Bearer ${reToken}`);
       return res
         .status(201)
         .json({ success: true, message: "로그인에 성공하였습니다." });

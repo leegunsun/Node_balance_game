@@ -3,7 +3,9 @@ const Users = require("../models");
 class SignupRepository {
   // 닉네임 중복 검사 함수
   isExistingNickname = async (nickname) => {
-    const user = await Users.findOne({ where: { nickname } });
+    console.log(nickname);
+    const user = await Users.findOne({ where: { nickname: nickname } });
+    console.log(user);
     return !!user;
   };
 
