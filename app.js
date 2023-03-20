@@ -15,7 +15,7 @@ const port = 3000;
 
 app.use(
   cors({
-    origin: "http://3.38.102.57:3000",
+    origin: "http://3.38.102.57",
     credentials: true,
     optionsSuccessStatus: 200,
   })
