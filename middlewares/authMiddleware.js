@@ -1,5 +1,5 @@
 const LoginRepository = require("../repositories/login.repository");
-const CustomLogger = require("../config/custom_winston");
+// const CustomLogger = require("../config/custom_winston");
 const loginRepository = new LoginRepository();
 const jwt = require("jsonwebtoken");
 const Boom = require("boom");
@@ -24,7 +24,7 @@ function validateRefreshToken(reToken) {
 }
 
 module.exports = async (req, res, next) => {
-  this.customLogger = new CustomLogger();
+  // this.customLogger = new CustomLogger();
   const label = "authMiddleware.js";
 
   try {
@@ -79,17 +79,17 @@ module.exports = async (req, res, next) => {
     next();
   } catch (error) {
     if (Boom.isBoom(error)) {
-      this.customLogger.log(
-        "error",
-        label,
-        error.output.payload.message,
-        error.output.statusCode
-      );
+      // this.customLogger.log(
+      //   "error",
+      //   label,
+      //   error.output.payload.message,
+      //   error.output.statusCode
+      // );
       res
         .status(error.output.statusCode)
         .json({ errorMessage: error.output.payload.message });
     } else {
-      this.customLogger.log("error", label, error.message, error.status);
+      // this.customLogger.log("error", label, error.message, error.status);
       res
         .status(400)
         .json({ errorMessage: "전달된 쿠키에서 오류가 발생하였습니다." });
