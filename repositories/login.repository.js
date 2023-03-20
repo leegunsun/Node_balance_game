@@ -17,6 +17,13 @@ class LoginRepository {
     });
     return user;
   };
+
+  findByRefreshToken = async({refreshToken}) => {
+    const user = await Users.findOne({
+      where: { refreshToken },
+    });
+    return user;
+  }
 }
 
 module.exports = LoginRepository;
