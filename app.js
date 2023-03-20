@@ -13,14 +13,6 @@ const indexRouter = require("./routes/index");
 
 const port = 3000;
 
-app.use(
-  cors({
-    origin: "*", // 저희 빽 배포 주소 -> 프론트에 맞춰야한다
-    credentials: true,
-    optionsSuccessStatus: 200,
-  })
-);
-
 sequelize
   .authenticate()
   .then(() => {
@@ -32,6 +24,14 @@ sequelize
 
 app.use(cookieParser());
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: "*", // 저희 빽 배포 주소 -> 프론트에 맞춰야한다
+    credentials: true,
+    optionsSuccessStatus: 200,
+  })
+);
 
 app.use("/api", indexRouter);
 
