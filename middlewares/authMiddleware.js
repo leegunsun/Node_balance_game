@@ -43,6 +43,7 @@ module.exports = async (req, res, next) => {
     if (!authToken) throw Boom.badRequest("Access Token이 존재하지 않습니다.");
 
     const validatedAccessToken = validateAccessToken(authToken);
+    console.log(validatedAccessToken);
     const validatedRefreshToken = validateRefreshToken(reToken);
 
     if (!validatedRefreshToken) {
