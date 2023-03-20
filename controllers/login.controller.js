@@ -19,7 +19,6 @@ class LoginController {
 
       res.cookie("authorization", `Bearer ${token}`, {
         sameSite: "none",
-        secure: true,
       });
       res.cookie("refreshToken", `Bearer ${reToken}`);
       return res
