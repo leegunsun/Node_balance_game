@@ -15,7 +15,11 @@ class LoginController {
 
       const token = await this.loginService.auth({ nickname, password });
 
+      const reToken = await this.loginService.refreshToken({ nickname });
+      console.log("어디야", nickname);
+
       res.cookie("authorization", `Bearer ${token}`);
+      res.cookie("refreshToken", `Bearer ${reToken}`);
       return res
         .status(201)
         .json({ success: true, message: "로그인에 성공하였습니다." });
