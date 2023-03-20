@@ -1,11 +1,9 @@
-// 모듈 불러오기
-// const { Users } = require("../db");
-const { Users } = require("../models");
+
 
 class SignupRepository {
   // 닉네임 중복 검사 함수
   isExistingNickname = async (nickname) => {
-    const user = await Users.findOne({ where: { nickname } });
+    const user = await Users. findOne({ where: { nickname } });
     return !!user;
   };
 
