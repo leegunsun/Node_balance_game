@@ -30,7 +30,7 @@ app.use(
     origin: "*",
     credentials: true,
     optionsSuccessStatus: 200,
-    exposedHeaders: ["authorization"],
+    // exposedHeaders: ["authorization"],
   })
 );
 
