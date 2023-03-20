@@ -15,11 +15,16 @@ const port = 3000;
 
 app.use(
   cors({
-    origin: "http://3.38.102.57:3000",
+    origin: "*",
     credentials: true,
     optionsSuccessStatus: 200,
   })
 );
+
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  next();
+});
 
 sequelize
   .authenticate()
