@@ -6,6 +6,7 @@ const Boom = require("boom");
 // require('dotenv').config();
 
 module.exports = async (req, res, next) => {
+  this.customLogger = new CustomLogger();
   const label = "authMiddleware.js";
   try {
     const { authorization } = req.cookies;
@@ -29,6 +30,12 @@ module.exports = async (req, res, next) => {
     next();
   } catch (error) {
     if (Boom.isBoom(error)) {
+      this.customLogger.log(
+        "error",
+        label,
+        error.output.payload.message,
+        error.output.statusCode
+      );
       res
         .status(error.output.statusCode)
         .json({ errorMessage: error.output.payload.message });
