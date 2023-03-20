@@ -5,24 +5,6 @@ const jwt = require("jsonwebtoken");
 const Boom = require("boom");
 // require('dotenv').config();
 
-function validateAccessToken(authToken) {
-  try {
-    jwt.verify(authToken, "Balance_Secret_Key");
-    return true;
-  } catch (error) {
-    return false;
-  }
-}
-
-function validateRefreshToken(reToken) {
-  try {
-    jwt.verify(reToken, "Balance_Secret_Key2");
-    return true;
-  } catch (error) {
-    return false;
-  }
-}
-
 module.exports = async (req, res, next) => {
   this.customLogger = new CustomLogger();
   const label = "authMiddleware.js";
@@ -31,6 +13,24 @@ module.exports = async (req, res, next) => {
     const { authorization, refreshToken } = req.cookies;
     const [authType, authToken] = (authorization ?? "").split(" ");
     const [reTokenType, reToken] = (refreshToken ?? "").split(" ");
+
+    function validateAccessToken(authToken) {
+      try {
+        jwt.verify(authToken, "Balance_Secret_Key");
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
+
+    function validateRefreshToken(reToken) {
+      try {
+        jwt.verify(reToken, "Balance_Secret_Key2");
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
 
     if (!reToken || !authType || authType !== "Bearer") {
       res
