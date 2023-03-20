@@ -1,10 +1,8 @@
-
 const bcrypt = require("bcrypt");
 const Boom = require("boom");
 const SignupService = require("../services/signup.service");
 const SignupRepository = require("../repositories/signup.repository");
 // const CustomLogger = require("../config/custom_winston");
-
 
 class SignupController {
   constructor() {
@@ -22,10 +20,7 @@ class SignupController {
       if (await this.signupRepository.isExistingNickname(nickname)) {
         throw Boom.conflict("중복된 닉네임입니다.");
       }
-      console.log(
-        "await this.signupRepository.isExistingNickname(nickname) ",
-        await this.signupRepository.isExistingNickname(nickname)
-      );
+      console.log(nickname);
 
       // 닉네임 형식 검사
       if (!/^[a-zA-Z0-9]{4,16}$/.test(nickname)) {
