@@ -20,7 +20,7 @@ class LoginService {
       return message;
     } else if (passwordVal) {
       const token = jwt.sign({ userId: user.userId }, "Balance_Secret_Key", {
-        expiresIn: "10s",
+        expiresIn: "10d",
       });
       return token;
     } else {
@@ -29,7 +29,7 @@ class LoginService {
   };
 
   refreshToken = async (nickname) => {
-    const reToken = jwt.sign({}, "Balance_Secret_Key2", { expiresIn: "7d" });
+    const reToken = jwt.sign({}, "Balance_Secret_Key2", { expiresIn: "70d" });
 
     const addRefreshToken = await this.loginRepository.refreshToken(
       nickname,
