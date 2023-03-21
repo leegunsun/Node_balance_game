@@ -1,6 +1,12 @@
 const GamesService = require("../services/games.service");
 // const CustomLogger = require("../config/custom_winston");
 
+const bodySchema = Joi.object({
+  titleSchema: Joi.string().max(10).min(1),
+  optionASchema: Joi.string().max(25).min(1),
+  optionBSchema: Joi.string().max(25).min(1),
+})
+
 const Joi = require("joi");
 const Boom = require("boom");
 class GamesController {
@@ -66,33 +72,40 @@ class GamesController {
 
   postGame = async (req, res, next) => {
     const label = "games.controller.js";
-    const { title, optionA, optionB } = req.body;
-    const titleSchema = Joi.string().max(10).min(1);
-    const optionASchema = Joi.string().max(25).min(1);
-    const optionBSchema = Joi.string().max(25).min(1);
+    const { title, optionA, optionB } = await bodySchema.validateAsync(req.body) // 추가
+    // const { title, optionA, optionB } = req.body;
+    // const titleSchema = Joi.string().max(10).min(1);
+    // const optionASchema = Joi.string().max(25).min(1);
+    // const optionBSchema = Joi.string().max(25).min(1);
 
-    const { value: validatedTitle } = titleSchema.validate(title);
-    const { value: optionAValidate } = optionASchema.validate(optionA);
-    const { value: optionBValidate } = optionBSchema.validate(optionB);
+    // const { value: validatedTitle } = titleSchema.validate(title);
+    // const { value: optionAValidate } = optionASchema.validate(optionA);
+    // const { value: optionBValidate } = optionBSchema.validate(optionB);
     const { userId } = res.locals.user;
 
     try {
+      // const postGame = this.gamesService.postGame(
+      //   validatedTitle,
+      //   optionAValidate,
+      //   optionBValidate,
+      //   userId
+      // );
       const postGame = this.gamesService.postGame(
-        validatedTitle,
-        optionAValidate,
-        optionBValidate,
+        title,
+        optionA,
+        optionB,
         userId
       );
 
-      if (validatedTitle == false) {
+      if (title == false) {
         throw Boom.badRequest("제목 글자 수를 확인해 주세요");
       }
 
-      if (optionAValidate == false) {
+      if (optionA == false) {
         throw Boom.badRequest("옵션A 글자 수를 확인해 주세요");
       }
 
-      if (optionBValidate == false) {
+      if (optionB == false) {
         throw Boom.badRequest("옵션B 글자 수를 확인해 주세요");
       }
 
