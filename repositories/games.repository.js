@@ -1,4 +1,4 @@
-const { Comments, Games } = require("../models");
+const { Comments, Games, Likes } = require("../models");
 const { Op } = require("sequelize");
 
 class GamesRepository {
@@ -30,6 +30,7 @@ class GamesRepository {
     const comments = await Comments.findAll({
       where: { gameId: gameId },
     });
+    const likes = await Likes.findAll({ where: { gameId: gameId } });
 
     // console.log(findOneGames);
     const rename = await Promise.all(
@@ -40,6 +41,7 @@ class GamesRepository {
           optionA: ele.optionA,
           optionB: ele.optionB,
           comments: comments.length ? comments : [],
+          likes: likes.length ? likes.length : 0,
           UserId: ele.UserId,
           createdAt: ele.createdAt,
           updatedAt: ele.updatedAt,
