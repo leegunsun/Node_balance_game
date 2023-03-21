@@ -20,7 +20,7 @@ class LoginService {
       return message;
     } else if (passwordVal) {
       const token = jwt.sign({ userId: user.userId }, "Balance_Secret_Key", {
-        expiresIn: "10m",
+        expiresIn: "10s",
       });
       return token;
     } else {
