@@ -1,12 +1,6 @@
 const GamesService = require("../services/games.service");
 // const CustomLogger = require("../config/custom_winston");
 
-const bodySchema = Joi.object({
-  titleSchema: Joi.string().max(10).min(1),
-  optionASchema: Joi.string().max(25).min(1),
-  optionBSchema: Joi.string().max(25).min(1),
-})
-
 const Joi = require("joi");
 const Boom = require("boom");
 class GamesController {
@@ -72,40 +66,50 @@ class GamesController {
 
   postGame = async (req, res, next) => {
     const label = "games.controller.js";
-    const { title, optionA, optionB } = await bodySchema.validateAsync(req.body) // 추가
-    // const { title, optionA, optionB } = req.body;
-    // const titleSchema = Joi.string().max(10).min(1);
-    // const optionASchema = Joi.string().max(25).min(1);
-    // const optionBSchema = Joi.string().max(25).min(1);
+    const { title, optionA, optionB } = req.body;
+    const titleSchema = Joi.string().min(1).max(10).messages({
+    'string.base': '제목은 문자로만 이루어져야 합니다.',
+    'string.empty': '제목을 입력해주세요.',
+    'string.pattern.base':'제목 글자 수를 확인해 주세요',
+    'any.required': '제목을 입력해주세요.',})
 
-    // const { value: validatedTitle } = titleSchema.validate(title);
-    // const { value: optionAValidate } = optionASchema.validate(optionA);
-    // const { value: optionBValidate } = optionBSchema.validate(optionB);
+    const optionASchema = Joi.string().min(1).max(25).messages({
+    'string.base': '옵션A는 문자로만 이루어져야 합니다.',
+    'string.empty': '옵션A를 입력해주세요.',
+    'string.pattern.base':'옵션A의 글자 수를 확인해 주세요',
+    'any.required': '옵션A를 입력해주세요',
+    });
+
+    const optionBSchema = Joi.string().min(1).max(25).messages({
+      'string.base': '옵션B는 문자로만 이루어져야 합니다.',
+      'string.empty': '옵션B를 입력해주세요.',
+      'string.pattern.base':'옵션B의 글자 수를 확인해 주세요',
+      'any.required': '옵션B를 입력해주세요',
+      });
+    
+    
+    const {value: validatedTitle} = titleSchema.validate(title);
+    const {value: optionAValidate} = optionASchema.validate(optionA);
+    const {value: optionBValidate} = optionBSchema.validate(optionB);
     const { userId } = res.locals.user;
 
     try {
-      // const postGame = this.gamesService.postGame(
-      //   validatedTitle,
-      //   optionAValidate,
-      //   optionBValidate,
-      //   userId
-      // );
       const postGame = this.gamesService.postGame(
-        title,
-        optionA,
-        optionB,
+        validatedTitle,
+        optionAValidate,
+        optionBValidate,
         userId
       );
 
-      if (title == false) {
+      if (validatedTitle == false) {
         throw Boom.badRequest("제목 글자 수를 확인해 주세요");
       }
 
-      if (optionA == false) {
+      if (optionAValidate == false) {
         throw Boom.badRequest("옵션A 글자 수를 확인해 주세요");
       }
 
-      if (optionB == false) {
+      if (optionBValidate == false) {
         throw Boom.badRequest("옵션B 글자 수를 확인해 주세요");
       }
 
