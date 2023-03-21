@@ -1,14 +1,14 @@
 const GamesService = require("../services/games.service");
 // const CustomLogger = require("../config/custom_winston");
 
-const bodySchema = Joi.object({
-  titleSchema: Joi.string().max(10).min(1),
-  optionASchema: Joi.string().max(25).min(1),
-  optionBSchema: Joi.string().max(25).min(1),
-})
-
 const Joi = require("joi");
 const Boom = require("boom");
+
+const bodySchema = Joi.object({
+  title: Joi.string().max(10).min(1),
+  optionA: Joi.string().max(25).min(1),
+  optionB: Joi.string().max(25).min(1),
+});
 class GamesController {
   constructor() {
     this.gamesService = new GamesService();
@@ -72,7 +72,7 @@ class GamesController {
 
   postGame = async (req, res, next) => {
     const label = "games.controller.js";
-    const { title, optionA, optionB } = await bodySchema.validateAsync(req.body) // 추가
+
     // const { title, optionA, optionB } = req.body;
     // const titleSchema = Joi.string().max(10).min(1);
     // const optionASchema = Joi.string().max(25).min(1);
@@ -90,12 +90,10 @@ class GamesController {
       //   optionBValidate,
       //   userId
       // );
-      const postGame = this.gamesService.postGame(
-        title,
-        optionA,
-        optionB,
-        userId
-      );
+
+      const { title, optionA, optionB } = await bodySchema.validateAsync(
+        req.body
+      ); // 추가
 
       if (title == false) {
         throw Boom.badRequest("제목 글자 수를 확인해 주세요");
@@ -108,6 +106,13 @@ class GamesController {
       if (optionB == false) {
         throw Boom.badRequest("옵션B 글자 수를 확인해 주세요");
       }
+
+      const postGame = this.gamesService.postGame(
+        title,
+        optionA,
+        optionB,
+        userId
+      );
 
       postGame;
       return res.status(201).json({ message: "게임 등록 완료~!!" });
