@@ -17,7 +17,7 @@ class SignupController {
 
     try {
       // 닉네임 중복 검사
-      if (!(await this.signupService.isExistingNickname(nickname))) {
+      if (await this.signupService.isExistingNickname(nickname)) {
         throw Boom.conflict("중복된 닉네임입니다.");
       }
 
