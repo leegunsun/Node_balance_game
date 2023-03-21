@@ -24,7 +24,7 @@ sequelize
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "*",
     credentials: true,
     optionsSuccessStatus: 200,
     exposedHeaders: ["authorization"],

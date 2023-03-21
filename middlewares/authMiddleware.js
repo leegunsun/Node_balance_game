@@ -60,7 +60,7 @@ module.exports = async (req, res, next) => {
       const newAccessToken = jwt.sign(
         { userId: user.userId },
         "Balance_Secret_Key",
-        { expiresIn: "10m" }
+        { expiresIn: "10s" }
       );
       res.cookie("authorization", `Bearer ${newAccessToken}`, {
         httpOnly: false,
