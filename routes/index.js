@@ -5,10 +5,12 @@ const loginRouter = require("./login.route");
 const gamesRouter = require("./games.route");
 const commentsRouter = require("./comments.route");
 const signupRouter = require("./signup.route");
+const likesRouter = require("./likes.route");
 
 router.use("/signup", signupRouter);
 router.use("/games", gamesRouter);
 router.use("/games/:gameId/comments", commentsRouter);
 router.use("/login", loginRouter);
+router.use("/like", likesRouter);
 
 module.exports = router;
