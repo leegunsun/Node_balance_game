@@ -6,8 +6,9 @@ class LoginRepository {
 
   getHashedPassword = async ({ nickname, password }) => {
     const user = await Users.findOne({
-      where: { nickname },
+      where: { nickname: nickname },
     });
+
     return user;
   };
 

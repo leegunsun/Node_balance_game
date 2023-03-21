@@ -56,6 +56,7 @@ class GamesRepository {
 
   createGame = async (title, optionA, optionB, UserId) => {
     const createGame = await Games.create({ title, optionA, optionB, UserId });
+
     return createGame;
   };
 
