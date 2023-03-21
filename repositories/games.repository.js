@@ -27,11 +27,8 @@ class GamesRepository {
 
   findOneRenameGame = async (gameId) => {
     const findOneGames = await Games.findAll({ where: { gameId: gameId } });
-    const commentsA = await Comments.findAll({
-      where: { [Op.and]: [{ gameId: gameId }, { option: "A" }] },
-    });
-    const commentsB = await Comments.findAll({
-      where: { [Op.and]: [{ gameId: gameId }, { option: "B" }] },
+    const comments = await Comments.findAll({
+      where: { gameId: gameId },
     });
 
     // console.log(findOneGames);
@@ -42,8 +39,7 @@ class GamesRepository {
           title: ele.title,
           optionA: ele.optionA,
           optionB: ele.optionB,
-          commentsA: commentsA.length ? commentsA : [],
-          commentsB: commentsB.length ? commentsB : [],
+          comments: comments.length ? comments : [],
           UserId: ele.UserId,
           createdAt: ele.createdAt,
           updatedAt: ele.updatedAt,

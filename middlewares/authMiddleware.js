@@ -25,10 +25,13 @@ function validateRefreshToken(reToken) {
 
 module.exports = async (req, res, next) => {
   // this.customLogger = new CustomLogger();
+
   const label = "authMiddleware.js";
 
   try {
-    const { authorization, refreshToken } = req.cookies;
+    const authorization = req.headers.authorization;
+    const refreshToken = req.headers.refreshToken;
+
     //로그인 하면 헤더 값을 읽어서 세션 스토리지에 저장
     const [authType, authToken] = (authorization ?? "").split(" ");
     const [reTokenType, reToken] = (refreshToken ?? "").split(" ");
