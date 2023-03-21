@@ -29,6 +29,7 @@ module.exports = async (req, res, next) => {
 
   try {
     const { authorization, refreshToken } = req.cookies;
+    //로그인 하면 헤더 값을 읽어서 세션 스토리지에 저장
     const [authType, authToken] = (authorization ?? "").split(" ");
     const [reTokenType, reToken] = (refreshToken ?? "").split(" ");
 
@@ -41,8 +42,7 @@ module.exports = async (req, res, next) => {
 
     if (!reToken) throw Boom.badRequest("Refresh Token이 존재하지 않습니다.");
     if (!authToken) throw Boom.badRequest("Access Token이 존재하지 않습니다.");
-    console.log(authorization);
-    console.log(refreshToken);
+
     const validatedAccessToken = validateAccessToken(authToken);
 
     const validatedRefreshToken = validateRefreshToken(reToken);
@@ -62,14 +62,14 @@ module.exports = async (req, res, next) => {
         "Balance_Secret_Key",
         { expiresIn: "10m" }
       );
-      res.cookie("authorization", `Bearer ${newAccessToken}`);
+      res.cookie("authorization", `Bearer ${newAccessToken}`, {
+        httpOnly: false,
+        sameSite: false,
+      });
     }
 
     const { userId } = jwt.verify(authToken, "Balance_Secret_Key");
     const user = await loginRepository.findByUserId({ userId });
-
-    console.log("userId :", userId);
-    console.log("user :", user);
 
     if (!user) {
       res.status(401).json({ errorMessage: "사용자가 존재하지 않습니다." });
