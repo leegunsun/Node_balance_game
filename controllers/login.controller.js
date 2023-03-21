@@ -1,11 +1,11 @@
 const LoginService = require("../services/login.service");
 const bcrypt = require("bcrypt");
 const Boom = require("boom");
-const CustomLogger = require("../config/custom_winston");
+// const CustomLogger = require("../config/custom_winston");
 class LoginController {
   constructor() {
     this.loginService = new LoginService();
-    this.customLogger = new CustomLogger();
+    // this.customLogger = new CustomLogger();
   }
 
   auth = async (req, res) => {
@@ -17,8 +17,14 @@ class LoginController {
 
       const reToken = await this.loginService.refreshToken({ nickname });
 
-      res.cookie("authorization", `Bearer ${token}`);
-      res.cookie("refreshToken", `Bearer ${reToken}`);
+      res.cookie("authorization", `Bearer ${token}`, {
+        httpOnly: false,
+        sameSite: false,
+      });
+      res.cookie("refreshToken", `Bearer ${reToken}`, {
+        httpOnly: false,
+        sameSite: false,
+      });
       return res
         .status(201)
         .json({ success: true, message: "로그인에 성공하였습니다." });
@@ -26,17 +32,17 @@ class LoginController {
       console.error(error);
       res.status(400).json({ error: error });
       if (Boom.isBoom(error)) {
-        this.customLogger.log(
-          "error",
-          label,
-          error.output.payload.message,
-          error.output.statusCode
-        );
+        // this.customLogger.log(
+        //   "error",
+        //   label,
+        //   error.output.payload.message,
+        //   error.output.statusCode
+        // );
         return res
           .status(error.output.statusCode)
           .json({ errorMessage: error.output.payload.message });
       } else {
-        this.customLogger.log("error", label, error.message, error.status);
+        // this.customLogger.log("error", label, error.message, error.status);
         res
           .status(500)
           .json({ message: "요청한 데이터 형식이 올바르지 않습니다." });

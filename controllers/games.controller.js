@@ -1,12 +1,12 @@
 const GamesService = require("../services/games.service");
-const CustomLogger = require("../config/custom_winston");
+// const CustomLogger = require("../config/custom_winston");
 
 const Joi = require("joi");
 const Boom = require("boom");
 class GamesController {
   constructor() {
     this.gamesService = new GamesService();
-    this.customLogger = new CustomLogger();
+    // this.customLogger = new CustomLogger();
   }
 
   getGames = async (req, res, next) => {
@@ -22,17 +22,17 @@ class GamesController {
       return;
     } catch (error) {
       if (Boom.isBoom(error)) {
-        this.customLogger.log(
-          "error",
-          label,
-          error.output.payload.message,
-          error.output.statusCode
-        );
+        // this.customLogger.log(
+        //   "error",
+        //   label,
+        //   error.output.payload.message,
+        //   error.output.statusCode
+        // );
         return res
           .status(error.output.statusCode)
           .json({ errorMessage: error.output.payload.message }); // 에러 메시지를 설정하면 이쪽으로 빠집니다.
       } else {
-        this.customLogger.log("error", label, error.message, error.status);
+        // this.customLogger.log("error", label, error.message, error.status);
         res.status(400).json({ errorMessage: "게임이 삭제에 실패하였습니다." });
       }
     }
@@ -48,17 +48,17 @@ class GamesController {
       return res.status(200).json({ game: findOneGame });
     } catch (error) {
       if (Boom.isBoom(error)) {
-        this.customLogger.log(
-          "error",
-          label,
-          error.output.payload.message,
-          error.output.statusCode
-        );
+        // this.customLogger.log(
+        //   "error",
+        //   label,
+        //   error.output.payload.message,
+        //   error.output.statusCode
+        // );
         res
           .status(error.output.statusCode)
           .json({ errorMessage: error.output.payload.message }); // 에러 메시지를 설정하면 이쪽으로 빠집니다.
       } else {
-        this.customLogger.log("error", label, error.message, error.status);
+        // this.customLogger.log("error", label, error.message, error.status);
         res.status(400).json({ errorMessage: "게임 조회에 실패하였습니다." });
       }
     }
@@ -100,17 +100,17 @@ class GamesController {
       return res.status(201).json({ message: "게임 등록 완료~!!" });
     } catch (error) {
       if (Boom.isBoom(error)) {
-        this.customLogger.log(
-          "error",
-          label,
-          error.output.payload.message,
-          error.output.statusCode
-        );
+        // this.customLogger.log(
+        //   "error",
+        //   label,
+        //   error.output.payload.message,
+        //   error.output.statusCode
+        // );
         res
           .status(error.output.statusCode)
           .json({ errorMessage: error.output.payload.message }); // 에러 메시지를 설정하면 이쪽으로 빠집니다.
       } else {
-        this.customLogger.log("error", label, error.message, error.status);
+        // this.customLogger.log("error", label, error.message, error.status);
         res.status(400).json({ errorMessage: "게임 등록에 실패하였습니다." });
       }
     }
@@ -127,17 +127,17 @@ class GamesController {
       return res.status(200).json({ message: "게임을 삭제하였습니다." });
     } catch (error) {
       if (Boom.isBoom(error)) {
-        this.customLogger.log(
-          "error",
-          label,
-          error.output.payload.message,
-          error.output.statusCode
-        );
+        // this.customLogger.log(
+        //   "error",
+        //   label,
+        //   error.output.payload.message,
+        //   error.output.statusCode
+        // );
         res
           .status(error.output.statusCode)
           .json({ errorMessage: error.output.payload.message }); // 에러 메시지를 설정하면 이쪽으로 빠집니다.
       } else {
-        this.customLogger.log("error", label, error.message, error.status);
+        // this.customLogger.log("error", label, error.message, error.status);
         res.status(400).json({ errorMessage: "게임이 삭제에 실패하였습니다." });
       }
     }

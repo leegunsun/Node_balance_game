@@ -1,16 +1,14 @@
-
 const bcrypt = require("bcrypt");
 const Boom = require("boom");
 const SignupService = require("../services/signup.service");
 const SignupRepository = require("../repositories/signup.repository");
-const CustomLogger = require("../config/custom_winston");
-
+// const CustomLogger = require("../config/custom_winston");
 
 class SignupController {
   constructor() {
     this.signupRepository = new SignupRepository();
     this.signupService = new SignupService();
-    this.customLogger = new CustomLogger();
+    // this.customLogger = new CustomLogger();
   }
 
   createUser = async (req, res, next) => {
@@ -19,7 +17,7 @@ class SignupController {
 
     try {
       // 닉네임 중복 검사
-      if (await this.signupRepository.isExistingNickname(nickname)) {
+      if (await this.signupService.isExistingNickname(nickname)) {
         throw Boom.conflict("중복된 닉네임입니다.");
       }
 
@@ -57,17 +55,17 @@ class SignupController {
       return res.status(201).json({ message: "회원 가입에 성공하였습니다." });
     } catch (err) {
       if (Boom.isBoom(err)) {
-        this.customLogger.log(
-          "error",
-          label,
-          err.output.payload.message,
-          err.output.statusCode
-        );
+        // this.customLogger.log(
+        //   "error",
+        //   label,
+        //   err.output.payload.message,
+        //   err.output.statusCode
+        // );
         return res
           .status(err.output.statusCode)
           .json({ errorMessage: err.output.payload.message });
       } else {
-        this.customLogger.log("error", label, err.message, err.status);
+        // this.customLogger.log("error", label, err.message, err.status);
         return res
           .status(500)
           .json({ errorMessage: "서버 에러가 발생하였습니다." });
