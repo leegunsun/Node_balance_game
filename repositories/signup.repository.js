@@ -9,7 +9,13 @@ class SignupRepository {
   };
 
   createUser = async (nickname, hashedPassword) => {
-    const user = await Users.create({ nickname, password: hashedPassword });
+    const user = await Users.create({
+      password: hashedPassword,
+      nickname: nickname,
+    });
+    console.log(nickname);
+    console.log(hashedPassword);
+    console.log(user);
     return user;
   };
 }

@@ -22,9 +22,6 @@ sequelize
     console.error("Sequelize 연결 실패:", err);
   });
 
-app.use(cookieParser());
-app.use(express.json());
-
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -33,6 +30,9 @@ app.use(
     exposedHeaders: ["authorization"],
   })
 );
+
+app.use(cookieParser());
+app.use(express.json());
 
 app.use("/api", indexRouter);
 
