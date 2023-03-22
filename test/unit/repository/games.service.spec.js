@@ -13,12 +13,12 @@ const mockGamesRepository = {
   deleteOneGame: jest.fn(),
 };
 
-describe("GamesRepository Layer Test", () => {
+describe("GamesService Layer Test", () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
 
-  test("GamesRepository findAllGames Test", async () => {
+  test("GamesService findAllGames Test", async () => {
     let gamesService = new GamesService();
 
     gamesService.gamesRepository = Object.assign({}, mockGamesRepository);
