@@ -31,8 +31,8 @@ module.exports = async (req, res, next) => {
   try {
     // const { authorization, refreshToken } = req.cookies; //쿠키사용
 
-    const authorization = req.body.authorization; //서버
-    const refreshToken = req.body.refreshToken; //서버
+    const authorization = req.headers.authorization; //서버
+    const refreshToken = req.headers.refreshToken; //서버
 
     //로그인 하면 헤더 값을 읽어서 세션 스토리지에 저장
     const [authType, authToken] = (authorization ?? "").split(" ");
