@@ -5,8 +5,8 @@ class LikesService {
     this.likesRepository = new LikesRepository();
   }
 
-  addLike = async (GameId) => {
-    const addLike = await this.likesRepository.addLike(GameId);
+  addLike = async (GameId, option) => {
+    const addLike = await this.likesRepository.addLike(GameId, option);
 
     return addLike;
   };

@@ -29,13 +29,13 @@ module.exports = async (req, res, next) => {
   const label = "authMiddleware.js";
 
   try {
-    const authorization = req.headers.authorization;
-    const refreshToken = req.headers.refreshToken;
+    const authorization = req.body.authorization;
+    const refreshToken = req.body.refreshToken;
 
     //로그인 하면 헤더 값을 읽어서 세션 스토리지에 저장
     const [authType, authToken] = (authorization ?? "").split(" ");
     const [reTokenType, reToken] = (refreshToken ?? "").split(" ");
-
+    console.log(authToken);
     if (!reToken || !authType || authType !== "Bearer") {
       res
         .status(400)
