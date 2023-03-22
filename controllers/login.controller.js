@@ -31,6 +31,9 @@ class LoginController {
       //   sameSite: false,
       // });
 
+      // res.cookie("authorization", `Bearer ${token}`); //임의
+      // res.cookie("refreshToken", `Bearer ${reToken}`); //임의
+
       return res.status(201).json({
         success: true,
         message: "로그인에 성공하였습니다.",
