@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Likes", "option", {
+    await queryInterface.createTable("Likes", {
       likeId: {
         allowNull: false,
         autoIncrement: true,
@@ -16,10 +16,6 @@ module.exports = {
           key: "gameId",
         },
         onDelete: "CASCADE",
-      },
-      option: {
-        type: DataTypes.STRING,
-        allowNull: false,
       },
       createdAt: {
         allowNull: false,
