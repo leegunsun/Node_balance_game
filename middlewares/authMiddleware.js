@@ -29,6 +29,8 @@ module.exports = async (req, res, next) => {
   const label = "authMiddleware.js";
 
   try {
+    // const { authorization, refreshToken } = req.cookies;
+
     const authorization = req.body.authorization;
     const refreshToken = req.body.refreshToken;
 
