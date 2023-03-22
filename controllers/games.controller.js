@@ -65,67 +65,79 @@ class GamesController {
   };
 
   postGame = async (req, res, next) => {
-  try {
-    const label = "games.controller.js";
-    const { title, optionA, optionB } = req.body;
-    const Joi = require('joi');
+    try {
+      const label = "games.controller.js";
+      const { title, optionA, optionB } = req.body;
+      const Joi = require("joi");
 
-    const messages = {
-      'string.base': '이 필드는 문자열로 이루어져야 합니다.',
-      'string.empty': '이 필드는 비어 있을 수 없습니다.',
-      'string.min': '이 필드는 최소 {{#limit}} 문자 이상이어야 합니다.',
-      'string.max': '이 필드는 최대 {{#limit}} 문자 이하여야 합니다.',
-      'any.required': '이 필드는 필수입니다.',
-    };
-    
-    const schema = Joi.object({
-      title: Joi.string().min(1).max(10).messages({
-        ...messages,
-        'string.min': '제목은 최소 {{#limit}} 문자 이상이어야 합니다.',
-        'string.max': '제목은 최대 {{#limit}} 문자 이하여야 합니다.'
-      }),
-      optionA: Joi.string().min(1).max(25).messages({
-        ...messages,
-        'string.min': 'optionA는 최소 {{#limit}} 문자 이상이어야 합니다.',
-        'string.max': 'optionA는 {{#limit}} 문자 이하여야 합니다.'
-      }),
-      optionB: Joi.string().min(1).max(25).messages({
-        ...messages,
-        'string.min': 'optionA는 최소 {{#limit}} 문자 이상이어야 합니다.',
-        'string.max': 'optionB는 최대 {{#limit}} 문자 이하여야 합니다.'
-      }),
-    });
+      const messages = {
+        "string.base": "이 필드는 문자열로 이루어져야 합니다.",
+        "string.empty": "이 필드는 비어 있을 수 없습니다.",
+        "string.min": "이 필드는 최소 {{#limit}} 문자 이상이어야 합니다.",
+        "string.max": "이 필드는 최대 {{#limit}} 문자 이하여야 합니다.",
+        "any.required": "이 필드는 필수입니다.",
+      };
 
-    const validate = schema.validate({title: title, optionA: optionA, optionB: optionB}, { abortEarly: false });
+      const schema = Joi.object({
+        title: Joi.string()
+          .min(1)
+          .max(10)
+          .messages({
+            ...messages,
+            "string.min": "제목은 최소 {{#limit}} 문자 이상이어야 합니다.",
+            "string.max": "제목은 최대 {{#limit}} 문자 이하여야 합니다.",
+          }),
+        optionA: Joi.string()
+          .min(1)
+          .max(25)
+          .messages({
+            ...messages,
+            "string.min": "optionA는 최소 {{#limit}} 문자 이상이어야 합니다.",
+            "string.max": "optionA는 {{#limit}} 문자 이하여야 합니다.",
+          }),
+        optionB: Joi.string()
+          .min(1)
+          .max(25)
+          .messages({
+            ...messages,
+            "string.min": "optionA는 최소 {{#limit}} 문자 이상이어야 합니다.",
+            "string.max": "optionB는 최대 {{#limit}} 문자 이하여야 합니다.",
+          }),
+      });
 
-    if (validate.error) {
-      throw Boom.badRequest(validate.error.message);
-    } else {
-      console.log('Valid input!');
+      const validate = schema.validate(
+        { title: title, optionA: optionA, optionB: optionB },
+        { abortEarly: false }
+      );
+
+      if (validate.error) {
+        throw Boom.badRequest(validate.error.message);
+      } else {
+        console.log("Valid input!");
+      }
+
+      const { userId } = res.locals.user;
+
+      const postGame = await this.gamesService.postGame(
+        title,
+        optionA,
+        optionB,
+        userId
+      );
+
+      postGame;
+      return res.status(201).json({ message: "게임 등록 완료~!!" });
+    } catch (error) {
+      if (Boom.isBoom(error)) {
+        res
+          .status(error.output.statusCode)
+          .json({ errorMessage: error.output.payload.message }); // 에러 메시지를 설정하면 이쪽으로 빠집니다.
+      } else {
+        res.status(400).json({ errorMessage: "게임 등록에 실패하였습니다." });
+      }
     }
+  };
 
-    const { userId } = res.locals.user;
-
-    const postGame = await this.gamesService.postGame(
-      title,
-      optionA,
-      optionB,
-      userId
-    );
-    
-    postGame;
-    return res.status(201).json({ message: "게임 등록 완료~!!" });
-  } catch (error) {
-    if (Boom.isBoom(error)) {
-      res
-        .status(error.output.statusCode)
-        .json({ errorMessage: error.output.payload.message }); // 에러 메시지를 설정하면 이쪽으로 빠집니다.
-    } else {
-      res.status(400).json({ errorMessage: "게임 등록에 실패하였습니다." });
-    }
-  }
-  }
-    
   deleteOneGame = async (req, res, next) => {
     const label = "games.controller.js";
     const { gameId } = req.params;

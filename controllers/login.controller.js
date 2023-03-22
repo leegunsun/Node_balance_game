@@ -17,17 +17,26 @@ class LoginController {
 
       const reToken = await this.loginService.refreshToken({ nickname });
 
-      res.cookie("authorization", `Bearer ${token}`, {
-        httpOnly: false,
-        sameSite: false,
+      // res.cookie("authorization", `Bearer ${token}`, {
+      //   httpOnly: false,
+      //   sameSite: false,
+      // });
+
+      // res.cookie("authorization", `Bearer ${token}`, {
+      //   httpOnly: false,
+      //   sameSite: false,
+      // });
+      // res.cookie("refreshToken", `Bearer ${reToken}`, {
+      //   httpOnly: false,
+      //   sameSite: false,
+      // });
+
+      return res.status(201).json({
+        success: true,
+        message: "로그인에 성공하였습니다.",
+        authorization: `Bearer ${token}`,
+        refreshToken: `Bearer ${reToken}`,
       });
-      res.cookie("refreshToken", `Bearer ${reToken}`, {
-        httpOnly: false,
-        sameSite: false,
-      });
-      return res
-        .status(201)
-        .json({ success: true, message: "로그인에 성공하였습니다." });
     } catch (error) {
       console.error(error);
       res.status(400).json({ error: error });

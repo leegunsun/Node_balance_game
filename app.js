@@ -24,7 +24,7 @@ sequelize
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: true,
     credentials: true,
     optionsSuccessStatus: 200,
     exposedHeaders: ["authorization"],
@@ -46,4 +46,3 @@ app.listen(port, () => {
 //test
 // "nickname":"qwer",
 // "password":"1234512345aA!",
-
