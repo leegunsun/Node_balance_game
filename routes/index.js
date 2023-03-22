@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const loginRouter = require("./login.route");
-const loginRouter = require("./logout.route");
+const logoutRouter = require("./logout.route");
 const gamesRouter = require("./games.route");
 const commentsRouter = require("./comments.route");
 const signupRouter = require("./signup.route");

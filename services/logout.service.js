@@ -1,11 +1,11 @@
 const LogoutRepository = require("../repositories/logout.repository");
 
 class LogoutService {
-    logoutRepository = new LogoutRepository();
+  logoutRepository = new LogoutRepository();
 
-    deleteToken = async (userId) => {
-        await this.logoutRepository.deleteToken(userId);
-    }
+  updateToken = async (userId) => {
+    await this.logoutRepository.updateToken(userId);
+  };
 }
 
 module.exports = LogoutService;

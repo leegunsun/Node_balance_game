@@ -1,9 +1,9 @@
 const { Users } = require("../models");
 
 class LogoutRepository {
-    deleteToken = async (userId) =>  {
-        await Users.destroy({ where: { userId: userId }, attributes: ['refreshToken'] });
-    }
+  updateToken = async (userId) => {
+    await Users.update({ refreshToken: "" }, { where: { userId: userId } });
+  };
 }
 
 module.exports = LogoutRepository;
