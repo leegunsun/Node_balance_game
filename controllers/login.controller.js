@@ -34,11 +34,12 @@ class LoginController {
       // res.cookie("authorization", `Bearer ${token}`); //임의
       // res.cookie("refreshToken", `Bearer ${reToken}`); //임의
 
+      res.set("authorization", `Bearer ${token}`);
+      res.set("refreshToken", `Bearer ${reToken}`);
+
       return res.status(201).json({
         success: true,
         message: "로그인에 성공하였습니다.",
-        authorization: `Bearer ${token}`,
-        refreshToken: `Bearer ${reToken}`,
       });
     } catch (error) {
       console.error(error);
