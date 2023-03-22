@@ -30,7 +30,12 @@ class GamesRepository {
     const comments = await Comments.findAll({
       where: { gameId: gameId },
     });
-    const likes = await Likes.findAll({ where: { gameId: gameId } });
+    const likesA = await Likes.findAll({
+      where: { [Op.and]: [{ GameId: gameId }, { option: "A" }] },
+    });
+    const likesB = await Likes.findAll({
+      where: { [Op.and]: [{ GameId: gameId }, { option: "B" }] },
+    });
 
     // console.log(findOneGames);
     const rename = await Promise.all(
@@ -41,7 +46,8 @@ class GamesRepository {
           optionA: ele.optionA,
           optionB: ele.optionB,
           comments: comments.length ? comments : [],
-          likes: likes.length ? likes.length : 0,
+          likesA: likesA.length ? likesA.length : 0,
+          likesB: likesB.length ? likesB.length : 0,
           UserId: ele.UserId,
           createdAt: ele.createdAt,
           updatedAt: ele.updatedAt,
