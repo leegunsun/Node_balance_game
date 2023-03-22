@@ -5,9 +5,14 @@ const mockLoginRepository = {
   refreshToken: jest.fn(),
 };
 
-const mockReq = {};
+const mockRequest = {
+  body: jest.fn(),
+};
 
-const mockRes = {};
+const mockResponse = {
+  status: jest.fn(),
+  json: jest.fn(),
+};
 
 describe("LoginService Layer Test", () => {
   beforeEach(() => {
