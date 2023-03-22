@@ -1,3 +1,9 @@
+exports.createPostGameInsertSchemaByController = {
+  title: "열글자가넘게만들은타이틀은어디까지가타이틀인가",
+  optionA: "optionA",
+  optionB: "optionB",
+};
+
 exports.FindAllGames = {
   gameId: 1,
   title: "title",
