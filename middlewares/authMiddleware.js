@@ -37,7 +37,7 @@ module.exports = async (req, res, next) => {
     //로그인 하면 헤더 값을 읽어서 세션 스토리지에 저장
     const authToken = authorization ?? "";
     // const [reTokenType, reToken] = (refreshToken ?? "").split(" ");
-    console.log("authToken 알려줘 :", authToken);
+
     if (!authToken) {
       res
         .status(400)
