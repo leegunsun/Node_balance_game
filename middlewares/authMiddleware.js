@@ -33,12 +33,11 @@ module.exports = async (req, res, next) => {
 
     const authorization = req.headers.authorization; //서버
     // const refreshToken = req.headers.refreshToken; //서버/
-    console.log(authorization);
+    console.log("req.headers 알려줘 :", req.headers);
     //로그인 하면 헤더 값을 읽어서 세션 스토리지에 저장
     const [authType, authToken] = (authorization ?? "").split(" ");
     // const [reTokenType, reToken] = (refreshToken ?? "").split(" ");
 
-    console.log(authToken);
     if (!authToken || authType !== "Bearer") {
       res
         .status(400)
