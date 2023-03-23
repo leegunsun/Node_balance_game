@@ -35,7 +35,7 @@ module.exports = async (req, res, next) => {
     // const refreshToken = req.headers.refreshToken; //서버/
     console.log("req.headers 알려줘 :", req.headers);
     //로그인 하면 헤더 값을 읽어서 세션 스토리지에 저장
-    const [authType, authToken] = (authorization ?? "").split(" ");
+    const [authType, authToken] = authorization ?? "";
     // const [reTokenType, reToken] = (refreshToken ?? "").split(" ");
 
     if (!authToken) {
