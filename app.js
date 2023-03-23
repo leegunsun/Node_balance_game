@@ -30,7 +30,7 @@ app.use(
     exposedHeaders: ["authorization"],
   })
 );
-
+app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser());
 app.use(express.json());
 
