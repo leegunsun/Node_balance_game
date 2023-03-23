@@ -65,6 +65,7 @@ class GamesController {
   };
 
   postGame = async (req, res, next) => {
+    console.log("확인하는 콘솔");
     try {
       const label = "games.controller.js";
       const { title, optionA, optionB } = req.body;
@@ -129,9 +130,7 @@ class GamesController {
       return res.status(201).json({ message: "게임 등록 완료~!!" });
     } catch (error) {
       if (Boom.isBoom(error)) {
-        res
-          .status(error.output.statusCode)
-          .json({ errorMessage: error.output.payload.message }); // 에러 메시지를 설정하면 이쪽으로 빠집니다.
+        res.status(error.statusCode).json({ errorMessage: error.message }); // 에러 메시지를 설정하면 이쪽으로 빠집니다.
       } else {
         res.status(400).json({ errorMessage: "게임 등록에 실패하였습니다." });
       }

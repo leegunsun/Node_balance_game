@@ -32,36 +32,36 @@ module.exports = async (req, res, next) => {
     // const { authorization, refreshToken } = req.cookies; //쿠키사용
 
     const authorization = req.headers.authorization; //서버
-    const refreshToken = req.headers.refreshToken; //서버
+    // const refreshToken = req.headers.refreshToken; //서버/
 
     //로그인 하면 헤더 값을 읽어서 세션 스토리지에 저장
     const [authType, authToken] = (authorization ?? "").split(" ");
-    const [reTokenType, reToken] = (refreshToken ?? "").split(" ");
+    // const [reTokenType, reToken] = (refreshToken ?? "").split(" ");
     console.log(authToken);
-    if (!reToken || !authType || authType !== "Bearer") {
+    if (!authType || authType !== "Bearer") {
       res
         .status(400)
         .json({ errorMessage: "로그인 후에 이용할 수 있는 기능입니다." });
       return;
     }
 
-    if (!reToken) throw Boom.badRequest("Refresh Token이 존재하지 않습니다.");
+    // if (!reToken) throw Boom.badRequest("Refresh Token이 존재하지 않습니다.");
     if (!authToken) throw Boom.badRequest("Access Token이 존재하지 않습니다.");
 
     const validatedAccessToken = validateAccessToken(authToken);
 
-    const validatedRefreshToken = validateRefreshToken(reToken);
+    // const validatedRefreshToken = validateRefreshToken(reToken);
 
-    if (!validatedRefreshToken) {
-      throw Boom.unauthorized("Refresh Token이 만료되었습니다.");
-    }
+    // if (!validatedRefreshToken) {
+    //   throw Boom.unauthorized("Refresh Token이 만료되었습니다.");
+    // }
     if (!validatedAccessToken) {
-      const user = await loginRepository.findByRefreshToken({
-        refreshToken: reToken,
-      });
-      if (!user.refreshToken) {
-        throw Boom.unauthorized("Refresh Token이 서버에 존재하지 않습니다.");
-      }
+      // const user = await loginRepository.findByRefreshToken({
+      //   refreshToken: reToken,
+      // });
+      // if (!user.refreshToken) {
+      //   throw Boom.unauthorized("Refresh Token이 서버에 존재하지 않습니다.");
+      // }
       const newAccessToken = jwt.sign(
         { userId: user.userId },
         "Balance_Secret_Key",
