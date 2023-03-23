@@ -38,7 +38,7 @@ module.exports = async (req, res, next) => {
     const [authType, authToken] = (authorization ?? "").split(" ");
     // const [reTokenType, reToken] = (refreshToken ?? "").split(" ");
 
-    if (!authToken || authType !== "Bearer") {
+    if (!authToken) {
       res
         .status(400)
         .json({ errorMessage: "로그인 후에 이용할 수 있는 기능입니다." });
