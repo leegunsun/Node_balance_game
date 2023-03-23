@@ -137,6 +137,67 @@ class GamesController {
     }
   };
 
+  updateOption = async (req, res, next) => {
+    try {
+      const { gameId } = req.params;
+      const { optionA, optionB } = req.body;
+
+      const messages = {
+        "string.base": "이 필드는 문자열로 이루어져야 합니다.",
+        "string.empty": "이 필드는 비어 있을 수 없습니다.",
+        "string.min": "이 필드는 최소 {{#limit}} 문자 이상이어야 합니다.",
+        "string.max": "이 필드는 최대 {{#limit}} 문자 이하여야 합니다.",
+        "any.required": "이 필드는 필수입니다.",
+      };
+
+      const schema = Joi.object({
+        optionA: Joi.string()
+          .min(1)
+          .max(25)
+          .messages({
+            ...messages,
+            "string.min": "optionA는 최소 {{#limit}} 문자 이상이어야 합니다.",
+            "string.max": "optionA는 {{#limit}} 문자 이하여야 합니다.",
+          }),
+        optionB: Joi.string()
+          .min(1)
+          .max(25)
+          .messages({
+            ...messages,
+            "string.min": "optionA는 최소 {{#limit}} 문자 이상이어야 합니다.",
+            "string.max": "optionB는 최대 {{#limit}} 문자 이하여야 합니다.",
+          }),
+      });
+
+      const validate = schema.validate(
+        { optionA: optionA, optionB: optionB },
+        { abortEarly: false }
+      );
+
+      if (validate.error) {
+        throw Boom.badRequest(validate.error.message);
+      } else {
+        console.log("Valid input!");
+      }
+
+      const update = await this.gamesService.updateOption(
+        gameId,
+        optionA,
+        optionB
+      );
+      update;
+      return res
+        .status(200)
+        .json({ message: "게임 옵션 수정에 성공했습니다." });
+    } catch (error) {
+      if (Boom.isBoom(error)) {
+        res.status(error.statusCode).json({ errorMessage: error.message }); // 에러 메시지를 설정하면 이쪽으로 빠집니다.
+      } else {
+        res.status(400).json({ errorMessage: "게임 등록에 실패하였습니다." });
+      }
+    }
+  };
+
   deleteOneGame = async (req, res, next) => {
     const label = "games.controller.js";
     const { gameId } = req.params;

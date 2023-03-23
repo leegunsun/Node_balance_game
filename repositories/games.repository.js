@@ -64,6 +64,15 @@ class GamesRepository {
     return createGame;
   };
 
+  updateOption = async (gameId, optionA, optionB) => {
+    const updateGame = await Games.update(
+      { optionA: optionA, optionB: optionB },
+      { where: { gameId: gameId } }
+    );
+
+    return updateGame;
+  };
+
   deleteOneGame = async (gameId) => {
     const findOne = await Games.findOne({ where: { gameId: gameId } });
     await findOne.destroy();

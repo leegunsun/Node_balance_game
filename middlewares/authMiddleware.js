@@ -32,7 +32,7 @@ module.exports = async (req, res, next) => {
     // const { authorization, refreshToken } = req.cookies; //쿠키사용
 
     const authorization = req.headers.authorization; //서버
-    // const refreshToken = req.headers.refreshToken; //서버/
+    // const refreshToken = req.headers.refreshToken; //버려안써
     console.log("req.headers 알려줘 :", req.headers);
     //로그인 하면 헤더 값을 읽어서 세션 스토리지에 저장
     const authToken = authorization ?? "";
@@ -67,10 +67,7 @@ module.exports = async (req, res, next) => {
         "Balance_Secret_Key",
         { expiresIn: "10d" }
       );
-      res.cookie("authorization", `Bearer ${newAccessToken}`, {
-        httpOnly: false,
-        sameSite: false,
-      });
+      res.set("authorization", `Bearer ${newAccessToken}`);
     }
 
     const { userId } = jwt.verify(authToken, "Balance_Secret_Key");
