@@ -28,13 +28,14 @@ describe("GamesController Layer Test", () => {
   });
 
   test("GamesController postGame Test", async () => {
+    console.log("되는지 안되는지");
     mockRequest.body = createPostGameInsertSchemaByController;
     mockResponse.status = jest.fn(() => {
       return mockResponse;
     });
-
+    console.log("에러가 났어요 1 :");
     await gamesController.postGame(mockRequest, mockResponse);
-
+    console.log("에러가 났어요 2 :");
     expect(gamesController.gamesService.postGame).toHaveBeenCalledTimes(1);
   });
 });
