@@ -35,7 +35,7 @@ class LoginController {
       // res.cookie("refreshToken", `Bearer ${reToken}`); //임의
 
       res.set("authorization", `Bearer ${token}`);
-      res.set("refreshToken", `Bearer ${reToken}`);
+      // res.set("refreshToken", `Bearer ${reToken}`);
 
       return res.status(201).json({
         success: true,
