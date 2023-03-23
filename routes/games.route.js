@@ -11,6 +11,8 @@ router.get("/:gameId", gamesController.getOneGame);
 
 router.post("/", authMiddleware, gamesController.postGame);
 
+router.put("/:gameId", authMiddleware, gamesController.updateOption);
+
 router.delete("/:gameId", authMiddleware, gamesController.deleteOneGame);
 
 module.exports = router;

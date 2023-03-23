@@ -47,6 +47,16 @@ class GamesService {
     return createGame;
   };
 
+  updateOption = async (gameId, optionA, optionB) => {
+    const update = await this.gamesRepository.updateOption(
+      gameId,
+      optionA,
+      optionB
+    );
+
+    return update;
+  };
+
   deleteOneGame = async (gameId, userId) => {
     const game = await this.gamesRepository.findOneGame(gameId);
 

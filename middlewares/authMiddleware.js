@@ -32,13 +32,13 @@ module.exports = async (req, res, next) => {
     // const { authorization, refreshToken } = req.cookies; //쿠키사용
 
     const authorization = req.headers.authorization; //서버
-    // const refreshToken = req.headers.refreshToken; //서버/
+    // const refreshToken = req.headers.refreshToken; //버려안써
     console.log("req.headers 알려줘 :", req.headers);
     //로그인 하면 헤더 값을 읽어서 세션 스토리지에 저장
-    const [authType, authToken] = (authorization ?? "").split(" ");
+    const authToken = authorization ?? "";
     // const [reTokenType, reToken] = (refreshToken ?? "").split(" ");
-
-    if (!authToken || authType !== "Bearer") {
+    console.log("authToken 알려줘 :", authToken);
+    if (!authToken) {
       res
         .status(400)
         .json({ errorMessage: "로그인 후에 이용할 수 있는 기능입니다." });
@@ -59,18 +59,15 @@ module.exports = async (req, res, next) => {
       // const user = await loginRepository.findByRefreshToken({
       //   refreshToken: reToken,
       // });
-      if (!user.refreshToken) {
-        throw Boom.unauthorized("Refresh Token이 서버에 존재하지 않습니다.");
-      }
+      // if (!user.refreshToken) {
+      //   throw Boom.unauthorized("Refresh Token이 서버에 존재하지 않습니다.");
+      // }
       const newAccessToken = jwt.sign(
         { userId: user.userId },
         "Balance_Secret_Key",
         { expiresIn: "10d" }
       );
-      res.cookie("authorization", `Bearer ${newAccessToken}`, {
-        httpOnly: false,
-        sameSite: false,
-      });
+      res.set("authorization", `Bearer ${newAccessToken}`);
     }
 
     const { userId } = jwt.verify(authToken, "Balance_Secret_Key");
